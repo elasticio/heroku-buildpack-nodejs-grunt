@@ -166,7 +166,7 @@ echo "-----> Vendoring npm into slug"
 cp -r "$VENDORED_NPM" "$BUILD_DIR/bin/npm"
 
 # setting up paths for building
-PATH="$VENDORED_SCONS:$VENDORED_NODE/bin:$VENDORED_SASS:$PATH"
+PATH="$VENDORED_SCONS:$VENDORED_NODE/bin:$VENDORED_SASS/gems/sass-3.2.14/bin/:$PATH"
 INCLUDE_PATH="$VENDORED_NODE/include"
 export CPATH="$INCLUDE_PATH"
 export CPPPATH="$INCLUDE_PATH"
@@ -180,8 +180,9 @@ echo "Dependencies installed" | indent
 
 # install sass
 echo "-----> Installing sass gem"
-gem install sass --install-dir "$VENDORED_SASS"
+gem install sass --version 3.2.14 --install-dir "$VENDORED_SASS"
 echo "Sass gem installed" | indent
+echo "$PATH"
 
 echo "-----> Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
