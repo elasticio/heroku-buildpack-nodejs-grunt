@@ -147,6 +147,7 @@ SCONS_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/scons-${SCONS_VERSION}.tgz"
 VENDORED_NODE="$(mktmpdir node)"
 VENDORED_NPM="$(mktmpdir npm)"
 VENDORED_SCONS="$(mktmpdir scons)"
+VENDORED_SASS="$(mktmpdir sass)"
 
 # download and unpack packages
 echo "-----> Fetching Node.js binaries"
@@ -176,6 +177,11 @@ echo "-----> Installing dependencies with npm"
 run_npm "install"
 run_npm "rebuild"
 echo "Dependencies installed" | indent
+
+# install sass
+echo "-----> Installing sass gem"
+gem install sass --install-dir "$VENDORED_SASS"
+echo "Sass gem installed" | indent
 
 echo "-----> Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
