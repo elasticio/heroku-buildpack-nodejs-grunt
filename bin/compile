@@ -174,8 +174,7 @@ export CPPPATH="$INCLUDE_PATH"
 # install dependencies with npm
 echo "-----> Installing dependencies with npm"
 #run_npm "install --production"
-# http://blog.npmjs.org/post/78085451721/npms-self-signed-certificate-is-no-more
-run_npm "config set ca ''"
+# Avoid SELF_SIGNED_CERT_IN_CHAIN: https://github.com/npm/npm/issues/1387
 run_npm "config set strict-ssl false"
 run_npm "install"
 run_npm "rebuild"
