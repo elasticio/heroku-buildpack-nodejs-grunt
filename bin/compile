@@ -189,7 +189,7 @@ echo "$PATH"
 
 # install compaas
 echo "-----> Installing compaas gem"
-gem install sass --version 0.12.5 --install-dir "$VENDORED_COMPASS"
+gem install compaas --version 0.12.5 --install-dir "$VENDORED_COMPASS"
 echo "compaas gem installed" | indent
 
 
