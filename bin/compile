@@ -148,6 +148,7 @@ VENDORED_NODE="$(mktmpdir node)"
 VENDORED_NPM="$(mktmpdir npm)"
 VENDORED_SCONS="$(mktmpdir scons)"
 VENDORED_SASS="$(mktmpdir sass)"
+VENDORED_COMPASS="$(mktmpdir compaas)"
 
 # download and unpack packages
 echo "-----> Fetching Node.js binaries"
@@ -185,6 +186,12 @@ echo "-----> Installing sass gem"
 gem install sass --version 3.2.14 --install-dir "$VENDORED_SASS"
 echo "Sass gem installed" | indent
 echo "$PATH"
+
+# install compaas
+echo "-----> Installing compaas gem"
+gem install sass --version 0.12.5 --install-dir "$VENDORED_COMPASS"
+echo "compaas gem installed" | indent
+
 
 echo "-----> Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
