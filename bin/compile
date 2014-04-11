@@ -167,7 +167,7 @@ echo "-----> Vendoring npm into slug"
 cp -r "$VENDORED_NPM" "$BUILD_DIR/bin/npm"
 
 # setting up paths for building
-PATH="$VENDORED_SCONS:$VENDORED_NODE/bin:$VENDORED_SASS/gems/sass-3.2.14/bin/:$VENDORED_COMPASS/bin:$PATH"
+PATH="$VENDORED_SCONS:$VENDORED_NODE/bin:$VENDORED_SASS/gems/sass-3.2.14/bin/:$VENDORED_COMPASS/gems/compass-0.12.5:$PATH"
 INCLUDE_PATH="$VENDORED_NODE/include"
 export CPATH="$INCLUDE_PATH"
 export CPPPATH="$INCLUDE_PATH"
