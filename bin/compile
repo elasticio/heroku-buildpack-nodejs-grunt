@@ -148,7 +148,7 @@ VENDORED_NODE="$(mktmpdir node)"
 VENDORED_NPM="$(mktmpdir npm)"
 VENDORED_SCONS="$(mktmpdir scons)"
 VENDORED_SASS="$(mktmpdir sass)"
-VENDORED_COMPASS="$(mktmpdir compaas)"
+VENDORED_COMPASS="$(mktmpdir compass)"
 
 # download and unpack packages
 echo "-----> Fetching Node.js binaries"
@@ -188,9 +188,9 @@ echo "Sass gem installed" | indent
 echo "$PATH"
 
 # install compaas
-echo "-----> Installing compaas gem"
-gem install compaas --version 0.12.5 --install-dir "$VENDORED_COMPASS"
-echo "compaas gem installed" | indent
+echo "-----> Installing compass gem"
+gem install compass --version 0.12.5 --install-dir "$VENDORED_COMPASS"
+echo "compass gem installed" | indent
 
 
 echo "-----> Building runtime environment"
