@@ -186,6 +186,11 @@ gem install sass --version 3.2.14 --install-dir "$VENDORED_SASS"
 echo "Sass gem installed" | indent
 echo "$PATH"
 
+#install libicu to detect encodings
+echo "-----> Installing libicu"
+apt-get install libicu-dev
+echo "-----> libicu installed"
+
 echo "-----> Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
 echo "export PATH=\"\$HOME/bin:\$HOME/node_modules/.bin:\$PATH\"" > $BUILD_DIR/.profile.d/nodejs.sh
