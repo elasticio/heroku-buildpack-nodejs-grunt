@@ -171,6 +171,11 @@ INCLUDE_PATH="$VENDORED_NODE/include"
 export CPATH="$INCLUDE_PATH"
 export CPPPATH="$INCLUDE_PATH"
 
+#install libicu to detect encodings
+echo "-----> Installing libicu"
+apt-get install libicu-dev
+echo "-----> libicu installed"
+
 # install dependencies with npm
 echo "-----> Installing dependencies with npm"
 #run_npm "install --production"
@@ -185,11 +190,6 @@ echo "-----> Installing sass gem"
 gem install sass --version 3.2.14 --install-dir "$VENDORED_SASS"
 echo "Sass gem installed" | indent
 echo "$PATH"
-
-#install libicu to detect encodings
-echo "-----> Installing libicu"
-apt-get install libicu-dev
-echo "-----> libicu installed"
 
 echo "-----> Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
