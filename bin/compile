@@ -93,8 +93,6 @@ function package_resolve_version() {
       resolved_version=${engine_requests[$engine]};
   fi
 
-  echo "Resolved version $resolved_version"
-
   if [ "${resolved_version}" == "" ]; then
     error "Requested engine $engine version ${engine_requests[$engine]} does not match available versions: ${engine_versions[$engine]}"
   else
