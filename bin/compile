@@ -114,7 +114,9 @@ declare -A engine_requests
 engine_defaults["node"]="0.10.x"
 engine_defaults["npm"]="1.2.x"
 
-cat $BUILD_DIR/package.json
+echo "Cat package node version"
+cat $BUILD_DIR/package.json | $bootstrap_node/bin/node $LP_DIR/vendor/json/json engines.node
+echo "----"
 MANIFEST_VERSION_NODE=$(package_engine_version "node")
 echo "Declared node version in package.json: $MANIFEST_VERSION_NODE"
 
