@@ -117,6 +117,8 @@ engine_defaults["npm"]="1.2.x"
 engine_versions["node"]=$(manifest_versions "nodejs")
 engine_requests["node"]=$(package_engine_version "node")
 
+echo "Decalred node version $engine_requests['node']"
+
 engine_versions["npm"]=$(manifest_versions "npm")
 engine_requests["npm"]=$(package_engine_version "npm")
 
