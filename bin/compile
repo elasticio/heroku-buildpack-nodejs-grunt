@@ -114,10 +114,11 @@ declare -A engine_requests
 engine_defaults["node"]="0.10.x"
 engine_defaults["npm"]="1.2.x"
 
-engine_versions["node"]=$(manifest_versions "nodejs")
-engine_requests["node"]=$(package_engine_version "node")
+MANIFEST_VERSION_NODE=$(package_engine_version "node")
+echo "Declared node version in package.json: $MANIFEST_VERSION_NODE"
 
-echo "Decalred node version $engine_requests['node']"
+engine_versions["node"]=$(manifest_versions "nodejs")
+engine_requests["node"]=$MANIFEST_VERSION_NODE
 
 engine_versions["npm"]=$(manifest_versions "npm")
 engine_requests["npm"]=$(package_engine_version "npm")
