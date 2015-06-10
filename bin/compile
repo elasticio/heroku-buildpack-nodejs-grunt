@@ -19,8 +19,6 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
-echo "Build dir: $BUILD_DIR"
-
 function error() {
   echo " !     $*" >&2
   exit 1
@@ -76,7 +74,8 @@ function resolve_version() {
 }
 
 function package_engine_version() {
-  version=$(cat $BUILD_DIR/package.json | $bootstrap_node/bin/node $LP_DIR/vendor/json/json engines.$1 2>/dev/null)
+  #version=$(cat $BUILD_DIR/package.json | $bootstrap_node/bin/node $LP_DIR/vendor/json/json engines.$1 2>/dev/null)
+  version=$(cat $BUILD_DIR/package.json | $LP_DIR/vendor/jq -r .engines.$1)
   if [ $? == 0 ]; then
     echo $version | sed -e 's/\([<>=]\) /\1/g'
   fi
@@ -84,7 +83,13 @@ function package_engine_version() {
 
 function package_resolve_version() {
   engine="$1"
-  resolved_version=$(resolve_version "${engine_versions[$engine]}" "${engine_requests[$engine]}" "${engine_defaults[$engine]}")
+  #resolved_version=$(resolve_version "${engine_versions[$engine]}" "${engine_requests[$engine]}" "${engine_defaults[$engine]}")
+
+  if [ $engine_requests[$engine] == "" ]; then
+      resolved_version=${engine_defaults[$engine]};
+    else
+      resolved_version=${engine_requests[$engine]};
+  fi
 
   if [ "${resolved_version}" == "" ]; then
     error "Requested engine $engine version ${engine_requests[$engine]} does not match available versions: ${engine_versions[$engine]}"
@@ -114,8 +119,11 @@ declare -A engine_requests
 engine_defaults["node"]="0.10.x"
 engine_defaults["npm"]="1.2.x"
 
+MANIFEST_VERSION_NODE=$(package_engine_version "node")
+echo "Declared node version in package.json: $MANIFEST_VERSION_NODE"
+
 engine_versions["node"]=$(manifest_versions "nodejs")
-engine_requests["node"]=$(package_engine_version "node")
+engine_requests["node"]=$MANIFEST_VERSION_NODE
 
 engine_versions["npm"]=$(manifest_versions "npm")
 engine_requests["npm"]=$(package_engine_version "npm")
