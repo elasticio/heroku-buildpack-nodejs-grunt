@@ -12,7 +12,7 @@ unset GIT_DIR
 
 # config
 SCONS_VERSION="1.2.0"
-S3_BUCKET="heroku-buildpack-nodejs"
+S3_BUCKET="elasticio-buildpack-nodejs"
 
 # parse and derive params
 BUILD_DIR=$1
@@ -104,7 +104,7 @@ function package_download() {
   location="$3"
 
   mkdir -p $location
-  package="http://${S3_BUCKET}.s3.amazonaws.com/$engine-$version.tgz"
+  package="http://${S3_BUCKET}.s3.amazonaws.com/$engine-$version.tar.gz"
   curl $package -s -o - | tar xzf - -C $location
 }
 
