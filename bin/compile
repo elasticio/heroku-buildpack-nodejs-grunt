@@ -11,8 +11,7 @@ set -e
 unset GIT_DIR
 
 # config
-SCONS_VERSION="1.2.0"
-S3_BUCKET="heroku-buildpack-nodejs"
+S3_BUCKET="elasticio-buildpack-nodejs"
 
 # parse and derive params
 BUILD_DIR=$1
@@ -105,19 +104,19 @@ function package_download() {
 
   mkdir -p $location
   package="http://${S3_BUCKET}.s3.amazonaws.com/$engine-$version.tgz"
-  curl $package -s -o - | tar xzf - -C $location
+  curl $package -s -o - | tar xzf - -C $location --strip-components=1
 }
 
 bootstrap_node=$(mktmpdir bootstrap_node)
-package_download "nodejs" "0.4.7" $bootstrap_node
+package_download "nodejs" "5.1.0" $bootstrap_node
 
 # make some associative arrays
 declare -A engine_versions
 declare -A engine_defaults
 declare -A engine_requests
 
-engine_defaults["node"]="0.10.x"
-engine_defaults["npm"]="1.2.x"
+engine_defaults["node"]="5.1.0"
+engine_defaults["npm"]="3.3.12"
 
 MANIFEST_VERSION_NODE=$(package_engine_version "node")
 echo "Declared node version in package.json: $MANIFEST_VERSION_NODE"
@@ -151,19 +150,16 @@ CACHE_TARGET_DIR="$BUILD_DIR/node_modules"
 # s3 packages
 NODE_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/nodejs-${NODE_VERSION}.tgz"
 NPM_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/npm-${NPM_VERSION}.tgz"
-SCONS_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/scons-${SCONS_VERSION}.tgz"
 
 # vendor directories
 VENDORED_NODE="$(mktmpdir node)"
 VENDORED_NPM="$(mktmpdir npm)"
-VENDORED_SCONS="$(mktmpdir scons)"
 VENDORED_SASS="$(mktmpdir sass)"
 
 # download and unpack packages
 echo "-----> Fetching Node.js binaries"
 package_download "nodejs" "${NODE_VERSION}" "${VENDORED_NODE}"
 package_download "npm" "${NPM_VERSION}" "${VENDORED_NPM}"
-package_download "scons" "${SCONS_VERSION}" "${VENDORED_SCONS}"
 
 # vendor node into the slug
 PATH="$BUILD_DIR/bin:$PATH"
@@ -176,7 +172,7 @@ echo "-----> Vendoring npm into slug"
 cp -r "$VENDORED_NPM" "$BUILD_DIR/bin/npm"
 
 # setting up paths for building
-PATH="$VENDORED_SCONS:$VENDORED_NODE/bin:$VENDORED_SASS/gems/sass-3.2.14/bin/:$PATH"
+PATH="$VENDORED_NODE/bin:$VENDORED_SASS/gems/sass-3.2.14/bin/:$PATH"
 INCLUDE_PATH="$VENDORED_NODE/include"
 export CPATH="$INCLUDE_PATH"
 export CPPPATH="$INCLUDE_PATH"
